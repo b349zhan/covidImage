@@ -6,7 +6,6 @@ from config import *
 import torch
 from torch.utils.data import random_split
 from torch.utils.data import DataLoader
-import torchvision.transforms as transforms
 class CovidDataset(Dataset):
     def __init__(self, annotations_file, img_dir, transform=None):
         self.img_labels = pd.read_csv(annotations_file)
@@ -29,7 +28,7 @@ def getLoader():
     givenTrainData = CovidDataset(annotations_file=TRAINING_Y_PATH, img_dir=TRAINING_X_PATH)
     trainData, valData = random_split(givenTrainData, [TRAIN_SIZE, VAL_SIZE],generator=torch.Generator().manual_seed(42) )
 
-    BATCH_SIZE = 1
+    BATCH_SIZE = 32
     train_dataloader = DataLoader(trainData, batch_size=BATCH_SIZE, shuffle=True)
     val_dataloader = DataLoader(valData, batch_size=BATCH_SIZE, shuffle=True)
 
